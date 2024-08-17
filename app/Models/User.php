@@ -9,7 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Models\couple;
+use App\Observers\UserObserver;
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -62,4 +63,23 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    public function coupleAsUser1()
+    {
+        return $this->belongsTo(Couple::class, 'id', 'user1_id');
+    }
+
+    // Relación con la pareja como user2
+    public function coupleAsUser2()
+    {
+        return $this->belongsTo(Couple::class, 'id', 'user2_id');
+    }
+
+    public function couple()
+    {
+        return $this->coupleAsUser1()->orWhere(function($query) {
+            $query->where('user2_id', $this->id);
+        });
+    }
+
 }

@@ -10,6 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 
+use Illuminate\Support\Facades\Log;
 class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -18,8 +19,10 @@ class WelcomeMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $prueba = env('MAIL_FROM_ADDRESS');
+        Log::info('User email: ' . $prueba);
         return new Envelope(
-            subject: 'This is an example mail',
+            subject: 'Welcome to my api',
             from: new Address(env('MAIL_FROM_ADDRESS'),env('MAIL_FROM_NAME'))
         );
     }
