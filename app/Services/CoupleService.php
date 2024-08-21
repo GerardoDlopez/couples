@@ -3,7 +3,7 @@
 namespace App\Services;
 use App\Models\User;
 use App\Models\Couple;
-class CreateCoupleService
+class CoupleService
 {
     /**
      * Create a new class instance.
@@ -44,10 +44,14 @@ class CreateCoupleService
             'user2_id' => $user2->id,
         ]);
 
-        // Anular los tokens de conexión
-        $user->update(['connection_token' => null]);
-        $user2->update(['connection_token' => null]);
-
         return $couple;
+    }
+
+    public function getCoupleIdForUser($userId){
+        
+        return Couple::where(function($query) use ($userId) {
+            $query->where('user1_id', $userId)
+                  ->orWhere('user2_id', $userId);
+        })->pluck('id')->first();
     }
 }

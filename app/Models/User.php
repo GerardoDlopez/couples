@@ -11,8 +11,11 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\couple;
 use App\Observers\UserObserver;
+use Spatie\Permission\Traits\HasRoles;
+
 class User extends Authenticatable
 {
+    use HasRoles;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -28,6 +31,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'connection_token'
     ];
 
     /**
@@ -40,6 +44,7 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'roles'
     ];
 
     /**

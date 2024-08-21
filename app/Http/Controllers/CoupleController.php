@@ -10,14 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Requests\ConnectionUserRequest;
-use App\Services\CreateCoupleService;
+use App\Services\CoupleService;
 
 class CoupleController extends Controller
 {
 
     protected $CreateCoupleService;
 
-    public function __construct(CreateCoupleService $CreateCoupleService)
+    public function __construct(CoupleService $CreateCoupleService)
     {
         $this->CreateCoupleService = $CreateCoupleService;
     }
@@ -34,14 +34,16 @@ class CoupleController extends Controller
     public function CreateTokenUser(Request $request):JsonResponse
     {
         $user = Auth::user();
+
+        $token = Str::random(32);
         User::where('email', $user->email)->update([
-            'connection_token' => Str::random(32),
+            'connection_token' => $token,
         ]);
 
         return response()->json([
             'status' => 'true',
             'message' => 'token creado',
-            'token' => $user->connection_token
+            'token' => $token
         ]);
         
     }

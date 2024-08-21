@@ -12,14 +12,20 @@ use Illuminate\Support\Facades\Route;
 Route::post('/user/create',[AuthController::class,'CreateUser']);
 Route::post('/user/login',[AuthController::class,'LoginUser']);
 
+Route::get('/user/logout',[AuthController::class,'LogOutUser'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user/logout',[AuthController::class,'LogOutUser']);
-
+Route::middleware(['auth:sanctum','can:single-dashboard'])->group(function () {
     Route::get('/createTokenUser', [CoupleController::class,'CreateTokenUser']);
     Route::post('/couple/store', [CoupleController::class,'store']);
-    Route::delete('/couple/delete',[CoupleController::class,'destroy']);
     Route::get('/couple/show/{id}',[CoupleController::class,'show']);
+});
+
+Route::middleware([
+    'auth:sanctum',
+    'permission:couple-dashboard',
+    'permission:medias',
+])->group(function(){
+    Route::delete('/couple/delete',[CoupleController::class,'destroy']);
     
     Route::post('/couple/media/store',[MediaController::class,'store']);
     Route::get('/couple/media/show/{id}',[MediaController::class,'show']);
