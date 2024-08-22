@@ -68,6 +68,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function gifts()
+    {
+        return $this->hasMany(gift::class);
+    }
     
     public function coupleAsUser1()
     {

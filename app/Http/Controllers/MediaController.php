@@ -33,7 +33,7 @@ class MediaController extends Controller
             'status' => 'true',
             'messaje' => 'Pelicula/serie agregada exitosamente!',
             'media' => $media
-        ], 200);
+        ], 201);
     }
 
     public function show(string $id){
@@ -52,6 +52,6 @@ class MediaController extends Controller
         return response()->json([
             'status' => 'true',
             'message' => 'Pelicula/serie a sido eliminada con exito'
-        ], 200);
+        ], 204);
     }
 }

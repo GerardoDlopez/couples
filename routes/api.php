@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CoupleController;
+use App\Http\Controllers\GiftController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\userController;
 use App\Models\media;
@@ -17,7 +18,7 @@ Route::get('/user/logout',[AuthController::class,'LogOutUser'])->middleware('aut
 Route::middleware(['auth:sanctum','can:single-dashboard'])->group(function () {
     Route::get('/createTokenUser', [CoupleController::class,'CreateTokenUser']);
     Route::post('/couple/store', [CoupleController::class,'store']);
-    Route::get('/couple/show/{id}',[CoupleController::class,'show']);
+    Route::get('/couple/show/{id}',[CoupleController::class,'show']); //pendiente
 });
 
 Route::middleware([
@@ -32,10 +33,5 @@ Route::middleware([
     Route::delete('/couple/media/delete',[MediaController::class,'destroy']);
 });
 
-
-
-
-
-
-
+Route::resource('gifts',GiftController::class)->middleware('auth:sanctum');
 
